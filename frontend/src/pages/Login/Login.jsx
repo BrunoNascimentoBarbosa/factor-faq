@@ -32,7 +32,7 @@ export const Login = () => {
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
             <img
-              src="/assets/logo.png"
+              src="/assets/logo.svg"
               alt="Logo"
               className="h-16 w-auto"
             />

@@ -27,7 +27,7 @@ export const AdminLayout = () => {
             <div className="flex items-center gap-6">
               <Link to="/admin" className="flex items-center">
                 <img
-                  src="/assets/logo.png"
+                  src="/assets/logo.svg"
                   alt="Logo"
                   className="h-8 w-auto"
                 />

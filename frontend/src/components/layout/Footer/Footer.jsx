@@ -4,7 +4,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 text-center">
         <div className="flex justify-center mb-4">
           <img
-            src="/assets/logo.png"
+            src="/assets/logo.svg"
             alt="Logo"
             className="h-8 w-auto"
           />
