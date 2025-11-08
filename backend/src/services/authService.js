@@ -1,9 +1,12 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { User } = require('../models');
 
 class AuthService {
   async login(email, password) {
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({
+      where: { email },
+      attributes: ['id', 'name', 'email', 'role', 'isActive', 'password']
+    });
 
     if (!user || !user.isActive) {
       throw new Error('Credenciais inválidas');
@@ -14,12 +17,12 @@ class AuthService {
       throw new Error('Credenciais inválidas');
     }
 
-    const token = this.generateToken(user._id);
-    const refreshToken = this.generateRefreshToken(user._id);
+    const token = this.generateToken(user.id);
+    const refreshToken = this.generateRefreshToken(user.id);
 
     return {
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role
@@ -30,19 +33,18 @@ class AuthService {
   }
 
   async register(userData) {
-    const existingUser = await User.findOne({ email: userData.email });
+    const existingUser = await User.findOne({ where: { email: userData.email } });
     if (existingUser) {
       throw new Error('Email já cadastrado');
     }
 
-    const user = new User(userData);
-    await user.save();
+    const user = await User.create(userData);
 
-    const token = this.generateToken(user._id);
+    const token = this.generateToken(user.id);
 
     return {
       user: {
-        id: user._id,
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role

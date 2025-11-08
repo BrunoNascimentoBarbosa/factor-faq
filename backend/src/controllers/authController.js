@@ -40,7 +40,9 @@ class AuthController {
 
   async getCurrentUser(req, res, next) {
     try {
-      const user = await User.findById(req.user._id).select('-password');
+      const user = await User.findByPk(req.user.id, {
+        attributes: { exclude: ['password'] }
+      });
 
       return res.status(200).json({
         success: true,

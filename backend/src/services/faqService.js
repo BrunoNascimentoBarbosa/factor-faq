@@ -1,33 +1,42 @@
-const FAQ = require('../models/FAQ');
+const { Op } = require('sequelize');
+const { FAQ, User } = require('../models');
 
 class FAQService {
   async getAll(filters) {
     const { category, search, page = 1, limit = 10, isPublished } = filters;
 
-    const query = {};
+    const where = {};
 
     if (isPublished !== undefined) {
-      query.isPublished = isPublished;
+      where.isPublished = isPublished;
     }
 
     if (category) {
-      query.categories = category;
+      where.categories = {
+        [Op.contains]: [category]
+      };
     }
 
     if (search) {
-      query.$text = { $search: search };
+      where[Op.or] = [
+        { title: { [Op.iLike]: `%${search}%` } },
+        { answer: { [Op.iLike]: `%${search}%` } }
+      ];
     }
 
-    const skip = (page - 1) * limit;
+    const offset = (page - 1) * limit;
 
-    const [faqs, total] = await Promise.all([
-      FAQ.find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(parseInt(limit))
-        .populate('createdBy', 'name email'),
-      FAQ.countDocuments(query)
-    ]);
+    const { rows: faqs, count: total } = await FAQ.findAndCountAll({
+      where,
+      limit: parseInt(limit),
+      offset,
+      order: [['createdAt', 'DESC']],
+      include: [{
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'name', 'email']
+      }]
+    });
 
     return {
       faqs,
@@ -38,51 +47,70 @@ class FAQService {
   }
 
   async getById(id) {
-    return FAQ.findById(id).populate('createdBy', 'name email');
-  }
-
-  async create(data) {
-    const faq = new FAQ(data);
-    return faq.save();
-  }
-
-  async update(id, data) {
-    return FAQ.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true
+    return FAQ.findByPk(id, {
+      include: [{
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'name', 'email']
+      }]
     });
   }
 
+  async create(data) {
+    return FAQ.create(data);
+  }
+
+  async update(id, data) {
+    const faq = await FAQ.findByPk(id);
+    if (!faq) return null;
+
+    return faq.update(data);
+  }
+
   async delete(id) {
-    return FAQ.findByIdAndDelete(id);
+    const faq = await FAQ.findByPk(id);
+    if (!faq) return null;
+
+    await faq.destroy();
+    return faq;
   }
 
   async vote(id, isHelpful) {
-    const field = isHelpful ? 'helpful' : 'notHelpful';
-    return FAQ.findByIdAndUpdate(
-      id,
-      { $inc: { [field]: 1 } },
-      { new: true }
-    );
+    const faq = await FAQ.findByPk(id);
+    if (!faq) return null;
+
+    if (isHelpful) {
+      faq.helpful += 1;
+    } else {
+      faq.notHelpful += 1;
+    }
+
+    return faq.save();
   }
 
   async incrementViews(id) {
-    return FAQ.findByIdAndUpdate(
-      id,
-      { $inc: { views: 1 } },
-      { new: true }
-    );
+    const faq = await FAQ.findByPk(id);
+    if (!faq) return null;
+
+    faq.views += 1;
+    return faq.save();
   }
 
   async getCategoryCounts() {
-    const counts = await FAQ.aggregate([
-      { $match: { isPublished: true } },
-      { $unwind: '$categories' },
-      { $group: { _id: '$categories', count: { $sum: 1 } } }
-    ]);
+    const { sequelize } = require('../config/database');
 
-    return counts.reduce((acc, { _id, count }) => {
-      acc[_id] = count;
+    const result = await sequelize.query(`
+      SELECT category, COUNT(*) as count
+      FROM (
+        SELECT unnest(categories) as category
+        FROM "FAQs"
+        WHERE "isPublished" = true
+      ) as cats
+      GROUP BY category
+    `, { type: sequelize.QueryTypes.SELECT });
+
+    return result.reduce((acc, { category, count }) => {
+      acc[category] = parseInt(count);
       return acc;
     }, {});
   }

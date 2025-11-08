@@ -1,61 +1,100 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
-const faqSchema = new mongoose.Schema({
+const FAQ = sequelize.define('FAQ', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
   title: {
-    type: String,
-    required: [true, 'Título é obrigatório'],
-    trim: true,
-    maxlength: [200, 'Título não pode exceder 200 caracteres']
-  },
-  answer: {
-    type: String,
-    required: [true, 'Resposta é obrigatória'],
-    trim: true
-  },
-  categories: [{
-    type: String,
-    enum: ['cadastro', 'monitoramento', 'medicao', 'financeiro'],
-    required: true
-  }],
-  youtubeUrl: {
-    type: String,
+    type: DataTypes.STRING(200),
+    allowNull: false,
     validate: {
-      validator: function(v) {
-        if (!v) return true;
-        return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(v);
-      },
-      message: 'URL do YouTube inválida'
+      notEmpty: { msg: 'Título é obrigatório' },
+      len: {
+        args: [1, 200],
+        msg: 'Título não pode exceder 200 caracteres'
+      }
     }
   },
-  tags: [String],
+  answer: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    validate: {
+      notEmpty: { msg: 'Resposta é obrigatória' }
+    }
+  },
+  categories: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+    defaultValue: [],
+    validate: {
+      notEmpty: { msg: 'Pelo menos uma categoria é obrigatória' },
+      isValidCategories(value) {
+        const validCategories = ['cadastro', 'monitoramento', 'medicao', 'financeiro'];
+        if (!value.every(cat => validCategories.includes(cat))) {
+          throw new Error('Categoria inválida');
+        }
+      }
+    }
+  },
+  youtubeUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isValidYoutubeUrl(value) {
+        if (value && !/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(value)) {
+          throw new Error('URL do YouTube inválida');
+        }
+      }
+    }
+  },
+  tags: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: []
+  },
   views: {
-    type: Number,
-    default: 0
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   helpful: {
-    type: Number,
-    default: 0
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   notHelpful: {
-    type: Number,
-    default: 0
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   },
   isPublished: {
-    type: Boolean,
-    default: true
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  indexes: [
+    {
+      fields: ['categories']
+    },
+    {
+      fields: ['isPublished']
+    },
+    {
+      fields: ['createdAt']
+    },
+    {
+      type: 'FULLTEXT',
+      fields: ['title', 'answer']
+    }
+  ]
 });
 
-// Índices para performance
-faqSchema.index({ title: 'text', answer: 'text' });
-faqSchema.index({ categories: 1, isPublished: 1 });
-faqSchema.index({ createdAt: -1 });
-
-module.exports = mongoose.model('FAQ', faqSchema);
+module.exports = FAQ;

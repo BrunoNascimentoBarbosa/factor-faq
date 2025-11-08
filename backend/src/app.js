@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
+const path = require('path');
 const corsOptions = require('./config/cors');
 const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
@@ -28,20 +29,31 @@ app.use('/api/', apiLimiter);
 // Routes
 app.use('/api', routes);
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Factor FAQ API',
-    version: '1.0.0',
-    endpoints: {
-      health: '/api/health',
-      faqs: '/api/faqs',
-      auth: '/api/auth',
-      categories: '/api/categories'
-    }
+// Servir arquivos estáticos do frontend em produção
+if (process.env.NODE_ENV === 'production') {
+  // Servir arquivos estáticos
+  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+  // Todas as rotas não-API retornam o index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
   });
-});
+} else {
+  // Root route em desenvolvimento
+  app.get('/', (req, res) => {
+    res.json({
+      success: true,
+      message: 'Factor FAQ API',
+      version: '1.0.0',
+      endpoints: {
+        health: '/api/health',
+        faqs: '/api/faqs',
+        auth: '/api/auth',
+        categories: '/api/categories'
+      }
+    });
+  });
+}
 
 // Error handler (deve ser o último middleware)
 app.use(errorHandler);

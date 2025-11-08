@@ -1,18 +1,36 @@
-const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
+
+// Configuração do Sequelize
+const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost:5432/factor_faq', {
+  dialect: 'postgres',
+  logging: process.env.NODE_ENV === 'development' ? console.log : false,
+  dialectOptions: {
+    ssl: process.env.DATABASE_URL && process.env.DATABASE_URL.includes('render.com') ? {
+      require: true,
+      rejectUnauthorized: false
+    } : false
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await sequelize.authenticate();
+    console.log('PostgreSQL Connected successfully!');
 
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    // Sincronizar models com o banco (criar tabelas)
+    await sequelize.sync({ alter: process.env.NODE_ENV === 'development' });
+    console.log('Database synchronized');
 
     // Criar categorias padrão se não existirem
     await createDefaultCategories();
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error('Unable to connect to database:', error.message);
     process.exit(1);
   }
 };
@@ -56,14 +74,14 @@ const createDefaultCategories = async () => {
   ];
 
   for (const category of defaultCategories) {
-    await Category.findOneAndUpdate(
-      { id: category.id },
-      category,
-      { upsert: true, new: true }
-    );
+    await Category.findOrCreate({
+      where: { id: category.id },
+      defaults: category
+    });
   }
 
   console.log('Default categories created/updated');
 };
 
 module.exports = connectDB;
+module.exports.sequelize = sequelize;

@@ -39,7 +39,7 @@ class FAQController {
       }
 
       // Incrementar visualizações
-      await faqService.incrementViews(faq._id);
+      await faqService.incrementViews(faq.id);
 
       return res.status(200).json({
         success: true,
@@ -54,7 +54,7 @@ class FAQController {
     try {
       const faq = await faqService.create({
         ...req.body,
-        createdBy: req.user._id
+        createdBy: req.user.id
       });
 
       return res.status(201).json({
