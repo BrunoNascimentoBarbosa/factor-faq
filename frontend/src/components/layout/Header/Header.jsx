@@ -12,17 +12,24 @@ export const Header = () => {
           <img
             src="/assets/logo.svg"
             alt="Logo"
-            className="h-8 w-auto"
+            className="h-[55px] w-auto"
           />
         </Link>
 
-        {isAuth && (
+        {isAuth ? (
           <Link
             to="/admin"
             className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-100 rounded-lg transition-colors"
           >
             <Settings className="w-5 h-5 text-primary" />
             <span className="font-medium text-primary">Painel Admin</span>
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="px-6 py-1.5 bg-[#F2665D] hover:bg-[#e55548] text-white text-sm font-semibold rounded-full transition-colors shadow-sm"
+          >
+            Login
           </Link>
         )}
       </div>

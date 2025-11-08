@@ -12,9 +12,9 @@ export const Button = ({
   const baseClasses = 'font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-primary hover:bg-orange-500 text-white',
+    primary: 'bg-[#F2665D] hover:bg-[#e55548] text-white',
     secondary: 'bg-secondary hover:bg-gray-700 text-white',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+    outline: 'border-2 border-factor-green text-factor-green hover:bg-factor-green hover:text-white',
     danger: 'bg-red-600 hover:bg-red-700 text-white',
   };
 

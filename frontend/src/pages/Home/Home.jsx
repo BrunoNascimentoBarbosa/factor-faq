@@ -4,7 +4,6 @@ import { Footer } from '@/components/layout/Footer/Footer';
 import { SearchBar } from '@/components/common/SearchBar/SearchBar';
 import { CategoryFilter } from '@/components/faq/CategoryFilter/CategoryFilter';
 import { FAQList } from '@/components/faq/FAQList/FAQList';
-import { WhatsAppButton } from '@/components/faq/WhatsAppButton/WhatsAppButton';
 import { useFAQs, useCategoryCounts } from '@/hooks/useFAQs';
 
 export const Home = () => {
@@ -33,7 +32,7 @@ export const Home = () => {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-primary to-orange-500 text-white py-12">
+        <section className="bg-gradient-to-r from-primary to-secondary text-white py-12">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-8">
               Encontre respostas rápidas para suas dúvidas
@@ -73,9 +72,6 @@ export const Home = () => {
             </div>
           </div>
         </section>
-
-        {/* WhatsApp Contact */}
-        <WhatsAppButton />
       </main>
 
       <Footer />

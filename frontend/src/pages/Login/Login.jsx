@@ -27,8 +27,8 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-orange-500 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-factor-green to-factor-blue flex items-center justify-center p-4">
+      <div className="bg-gray-900 rounded-lg shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
             <img
@@ -37,7 +37,7 @@ export const Login = () => {
               className="h-16 w-auto"
             />
           </div>
-          <p className="text-gray-600 text-lg">Painel Administrativo</p>
+          <p className="text-gray-300 text-lg">Painel Administrativo</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -78,7 +78,7 @@ export const Login = () => {
         <div className="mt-6 text-center">
           <button
             onClick={() => navigate('/')}
-            className="text-primary hover:text-orange-500 text-sm font-medium"
+            className="text-gray-300 hover:text-factor-green text-sm font-medium transition-colors"
           >
             ← Voltar para FAQs
           </button>
