@@ -9,7 +9,7 @@
     "dev": "nodemon src/server.js",
     "test": "jest --watchAll --verbose",
     "test:coverage": "jest --coverage",
-    "build": "cd ../frontend && npm ci && npm run build",
+    "build": "cd ../frontend && NODE_ENV=development npm install && npm run build",
     "deploy": "npm run build && npm start"
   },
   "keywords": [
