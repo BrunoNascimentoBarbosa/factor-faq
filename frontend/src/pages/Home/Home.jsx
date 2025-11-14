@@ -35,7 +35,7 @@ export const Home = () => {
         <section className="bg-gradient-to-r from-primary to-secondary text-white py-12">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-8">
-              Encontre respostas rápidas para suas dúvidas
+              Central de Treinamento - Plataforma FACTOR
             </h1>
             <SearchBar onSearch={handleSearch} />
           </div>
@@ -58,8 +58,8 @@ export const Home = () => {
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-800">
                   {selectedCategory
-                    ? `FAQs - ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`
-                    : 'Todas as Perguntas Frequentes'}
+                    ? `Treinamentos - ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`
+                    : 'Todos os Treinamentos'}
                 </h2>
                 {searchTerm && (
                   <p className="text-gray-600 mt-2">
