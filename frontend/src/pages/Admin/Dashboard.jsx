@@ -77,7 +77,7 @@ export const Dashboard = () => {
                   .slice(0, 5)
                   .map((faq) => (
                     <div
-                      key={faq._id}
+                      key={faq.id}
                       className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex-1">

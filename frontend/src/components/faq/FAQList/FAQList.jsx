@@ -27,7 +27,7 @@ export const FAQList = ({ faqs, onVote, isLoading }) => {
   return (
     <div className="space-y-4">
       {faqs.map((faq) => (
-        <FAQItem key={faq._id} faq={faq} onVote={onVote} />
+        <FAQItem key={faq.id} faq={faq} onVote={onVote} />
       ))}
     </div>
   );

@@ -57,7 +57,7 @@ export const FAQItem = ({ faq, onVote }) => {
               )}
 
               <VoteButtons
-                faqId={faq._id}
+                faqId={faq.id}
                 helpful={faq.helpful}
                 notHelpful={faq.notHelpful}
                 onVote={onVote}

@@ -80,7 +80,7 @@ export const FAQManagement = () => {
                 </tr>
               ) : (
                 faqs.map((faq) => (
-                  <tr key={faq._id} className="hover:bg-gray-50">
+                  <tr key={faq.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900 line-clamp-2">
                         {faq.title}
@@ -125,14 +125,14 @@ export const FAQManagement = () => {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
-                          onClick={() => navigate(`/admin/faqs/edit/${faq._id}`)}
+                          onClick={() => navigate(`/admin/faqs/edit/${faq.id}`)}
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           title="Editar"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(faq._id, faq.title)}
+                          onClick={() => handleDelete(faq.id, faq.title)}
                           disabled={isDeleting}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
                           title="Deletar"
