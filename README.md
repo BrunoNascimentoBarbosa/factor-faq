@@ -39,52 +39,56 @@ Siga os passos abaixo para configurar e executar o projeto localmente.
 ### Backend
 
 1.  **Navegue até a pasta do backend e instale as dependências:**
-```bash
-cd backend
-npm install
-```
+    ```bash
+    cd backend
+    npm install
+    ```
 
-Configure as variáveis de ambiente criando um arquivo `.env.development`:
-```bash
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/factor-faq
-JWT_SECRET=your-secret-key
-JWT_EXPIRE=7d
-FRONTEND_URL=http://localhost:3000
-```
+2.  **Configure as variáveis de ambiente:**
+    Crie um arquivo chamado `.env.development` na pasta `backend` e adicione o seguinte conteúdo. Certifique-se de que o banco de dados `factor_faq` exista no seu servidor PostgreSQL.
 
-Inicie o servidor:
-```bash
-npm run dev
-```
+    ```env
+    # backend/.env.development
+    NODE_ENV=development
+    PORT=5000
+    DATABASE_URL="postgresql://SEU_USUARIO:SUA_SENHA@localhost:5432/factor_faq"
+    JWT_SECRET=sua-chave-secreta-para-jwt
+    JWT_EXPIRE=7d
+    FRONTEND_URL=http://localhost:3000
+    ```
+
+3.  **Inicie o servidor de desenvolvimento do backend:**
+    ```bash
+    npm run dev
+    ```
+    O servidor estará rodando em `http://localhost:5000`.
 
 ### Frontend
 
-```bash
-cd frontend
-npm install
-```
+1.  **Em um novo terminal, navegue até a pasta do frontend e instale as dependências:**
+    ```bash
+    cd frontend
+    npm install
+    ```
 
-Configure as variáveis de ambiente no `.env.development` (já está criado).
-
-Inicie o aplicativo:
-```bash
-npm run dev
-```
+2.  **Inicie o servidor de desenvolvimento do frontend:**
+    ```bash
+    npm run dev
+    ```
+    A aplicação estará acessível em `http://localhost:3000`.
 
 ## 👤 Criando um usuário admin
 
-Para acessar o painel administrativo, você precisa criar um usuário. Você pode fazer isso usando um cliente REST como Insomnia ou Postman:
+Para acessar o painel administrativo, você precisa criar um usuário com a permissão de `admin`. Você pode fazer isso enviando uma requisição para a API usando um cliente REST como Insomnia ou Postman.
 
-**POST** `http://localhost:5000/api/auth/register`
+**Endpoint:** `POST http://localhost:5000/api/auth/register`
 
-Body:
+**Body (JSON):**
 ```json
 {
   "name": "Admin",
   "email": "admin@factor.com",
-  "password": "senha123",
+  "password": "SuaSenhaSegura123!",
   "role": "admin"
 }
 ```
