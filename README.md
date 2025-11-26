@@ -1,6 +1,6 @@
-# Factor FAQ - Sistema de Perguntas Frequentes
+# Factor-FAQ
 
-Sistema moderno de FAQ (Perguntas Frequentes) para a empresa FACTOR, construído com React no frontend e Node.js no backend.
+Este projeto é um **sistema de treinamento** para a empresa FACTOR, com um FAQ (Perguntas Frequentes) moderno construído com React no frontend e Node.js no backend.
 
 ## 🚀 Tecnologias
 
@@ -16,20 +16,29 @@ Sistema moderno de FAQ (Perguntas Frequentes) para a empresa FACTOR, construído
 ### Backend
 - Node.js
 - Express.js
-- MongoDB + Mongoose
+- **PostgreSQL**
 - JWT Authentication
 - Joi Validation
 
 ## 📋 Pré-requisitos
 
-- Node.js 18+
-- MongoDB
-- npm ou yarn
+- **Node.js**: v18 ou superior
+- **npm** ou **yarn**
+- **PostgreSQL**: É necessário ter o PostgreSQL instalado e rodando na sua máquina. Você pode baixá-lo [aqui](https://www.postgresql.org/download/).
 
-## 🔧 Instalação
+## 🔧 Configuração do Ambiente Local
+
+Siga os passos abaixo para configurar e executar o projeto localmente.
+
+1.  **Clone o repositório**
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd Factor-FAQ
+    ```
 
 ### Backend
 
+1.  **Navegue até a pasta do backend e instale as dependências:**
 ```bash
 cd backend
 npm install
