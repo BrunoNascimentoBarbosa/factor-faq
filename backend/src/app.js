@@ -26,8 +26,7 @@ app.use(helmet({
       objectSrc: ["'none'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://www.youtube.com", "https://s.ytimg.com"],
       scriptSrcAttr: ["'none'"],
-      styleSrc: ["'self'", "https:", "'unsafe-inline'"],
-      upgradeInsecureRequests: []
+      styleSrc: ["'self'", "https:", "'unsafe-inline'"]
     }
   }
 }));
