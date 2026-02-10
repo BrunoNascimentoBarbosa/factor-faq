@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 5000;
 // Connect to database
 connectDB();
 
-// Start server
-const server = app.listen(PORT, () => {
+// Start server - listen on all interfaces (0.0.0.0)
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`
     ╔═══════════════════════════════════════╗
     ║   Factor FAQ API is running! 🚀      ║
