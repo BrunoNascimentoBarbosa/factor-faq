@@ -1,4 +1,6 @@
-require('dotenv').config({ path: '.env.development' });
+// Carregar arquivo .env correto baseado no ambiente
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
+require('dotenv').config({ path: envFile });
 const app = require('./app');
 const connectDB = require('./config/database');
 
