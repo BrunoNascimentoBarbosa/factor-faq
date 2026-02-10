@@ -12,7 +12,7 @@ echo "🔄 Atualizando Factor FAQ..."
 echo "=========================================="
 
 # Navegar para diretório da aplicação
-cd /factor/factor-faq-main
+cd /factor/factor-faq
 
 echo ""
 echo "📦 1. Atualizando e buildando frontend..."

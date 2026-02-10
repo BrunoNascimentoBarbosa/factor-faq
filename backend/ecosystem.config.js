@@ -6,7 +6,7 @@
  * Não rode frontend separadamente!
  *
  * Para iniciar:
- *   cd /factor/factor-faq-main/backend
+ *   cd /factor/factor-faq/backend
  *   sudo pm2 start ecosystem.config.js
  *
  * Para verificar status:
@@ -24,7 +24,7 @@ module.exports = {
   apps: [{
     name: 'factor-faq',
     script: './src/server.js',
-    cwd: '/factor/factor-faq-main/backend',
+    cwd: '/factor/factor-faq/backend',
     instances: 1,
     exec_mode: 'fork',
 
@@ -35,8 +35,8 @@ module.exports = {
     },
 
     // Logs
-    error_file: '/factor/factor-faq-main/logs/error.log',
-    out_file: '/factor/factor-faq-main/logs/out.log',
+    error_file: '/factor/factor-faq/logs/error.log',
+    out_file: '/factor/factor-faq/logs/out.log',
     log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
     merge_logs: true,
 

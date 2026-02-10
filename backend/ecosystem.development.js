@@ -10,7 +10,7 @@ module.exports = {
   apps: [
     {
       name: "backend-dev",
-      cwd: "/factor/factor-faq-main/backend",
+      cwd: "/factor/factor-faq/backend",
       script: "npm",
       args: "run dev",
       autorestart: true,
@@ -22,7 +22,7 @@ module.exports = {
     },
     {
       name: "frontend-dev",
-      cwd: "/factor/factor-faq-main/frontend",
+      cwd: "/factor/factor-faq/frontend",
       script: "npm",
       args: "run dev -- --host 0.0.0.0 --port 3000",
       autorestart: true,
