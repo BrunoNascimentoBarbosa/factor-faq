@@ -18,16 +18,19 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       baseUri: ["'self'"],
-      connectSrc: ["'self'", "https://www.youtube.com", "https://www.google.com"],
+      connectSrc: ["'self'", "https://www.youtube.com", "https://www.google.com", "https://*.googlevideo.com"],
       fontSrc: ["'self'", "https:", "data:"],
       formAction: ["'self'"],
       frameAncestors: ["'self'"],
       frameSrc: ["'self'", "https://www.youtube.com", "https://www.youtube-nocookie.com"],
-      imgSrc: ["'self'", "data:", "https:", "https://i.ytimg.com"],
+      imgSrc: ["'self'", "data:", "https:", "https://i.ytimg.com", "https://*.ytimg.com", "https://*.ggpht.com"],
+      mediaSrc: ["'self'", "https://*.googlevideo.com", "https://www.youtube.com"],
       objectSrc: ["'none'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.youtube.com", "https://s.ytimg.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.youtube.com", "http://www.youtube.com", "https://s.ytimg.com", "https://*.ytimg.com"],
+      scriptSrcElem: ["'self'", "'unsafe-inline'", "https://www.youtube.com", "http://www.youtube.com", "https://s.ytimg.com", "https://*.ytimg.com"],
       scriptSrcAttr: ["'none'"],
-      styleSrc: ["'self'", "https:", "'unsafe-inline'"]
+      styleSrc: ["'self'", "https:", "'unsafe-inline'"],
+      workerSrc: ["'self'", "blob:"]
     }
   }
 }));
